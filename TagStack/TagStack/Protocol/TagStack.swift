@@ -37,8 +37,7 @@ struct TagStack: Layout {
 		subviews: Subviews,
 		cache: inout ()
 	) {
-		/*
-		 width of each subview = (bounds.width - spacing * (subview.count - 1)) / subview.count
-		 */
+		// width of each subview = (bounds.width - spacing * (subview.count - 1)) / subview.count
+		 
 	}
 }

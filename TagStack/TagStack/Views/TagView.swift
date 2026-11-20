@@ -8,29 +8,27 @@
 import SwiftUI
 
 struct TagView: View {
-	
-	var tag : String
-	
-    var body: some View {
-		
-        Text(tag)
+
+	var tag: String
+
+	var body: some View {
+
+		Text(tag)
 			.padding(.horizontal, 12)
 			.padding(.vertical, 6)
 			.frame(minWidth: 80)
 			.font(.body.weight(.semibold).width(.compressed))
 			.foregroundStyle(.white)
-			.backgroundStyle(.blue)
-			.background(Capsule())
+			.background(.blue, in: Capsule())
 			.lineLimit(1)
-		
-	
-    }
+
+	}
 }
 
 #Preview {
-	VStack{
+	VStack {
 		TagView(tag: "#book")
 		TagView(tag: "#iOS developersdada")
 	}
-    
+
 }

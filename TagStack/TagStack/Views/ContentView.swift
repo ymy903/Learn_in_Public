@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        TagStack(spacing: 24) {
+	var body: some View {
+		TagStack(spacing: 24) {
 			TagView(tag: "#iOS developer sadasda")
-            TagView(tag: "#book")
-			
-        }
-        .padding()
-    }
+			TagView(tag: "#book")
+
+		}
+		.padding()
+	}
 }
 
 #Preview {
-    ContentView()
+	ContentView()
 }
