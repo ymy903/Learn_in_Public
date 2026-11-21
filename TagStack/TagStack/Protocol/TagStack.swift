@@ -9,6 +9,16 @@ import SwiftUI
 struct TagStack: Layout {
 	//default value for spacing when placing subviews
 	var spacing: CGFloat = 0
+	//Refactored: make this helper func to measure the width and height of subviews
+	private func maxSize(of subviews: Subviews)
+		-> CGSize?
+	{
+		let sizes = subviews.map { $0.sizeThatFits(.unspecified) }  //array of subviews' size-want-to-be
+		guard let maxWidth = sizes.map({ $0.width }).max(),  //array of widest width
+			let maxHeight = sizes.map({ $0.height }).max()  //array of tallest height
+		else { return nil }	//return "empty box"
+		return CGSize(width: maxWidth, height: maxHeight)
+	}
 
 	func sizeThatFits(
 		proposal: ProposedViewSize,
@@ -16,19 +26,11 @@ struct TagStack: Layout {
 		cache: inout ()
 	) -> CGSize {
 		let count = CGFloat(subviews.count)
-		//loop thru subviews with map method to get array of subviews' CGSize
-		let dimensions = subviews.map { $0.sizeThatFits(.unspecified) }
-		// loop the sizes array to find each subviews' width and height value
-		let widths = dimensions.map { $0.width }
-		let heights = dimensions.map { $0.height }
-		//use max() to find out the max width and height
-		guard let maxWidth = widths.max(), let maxHeight = heights.max() else {
-			return .zero
-		}
-		//final proposed width
-		let width = maxWidth * count + spacing * (count - 1)
+		
+		guard let size = maxSize(of: subviews) else { return .zero }	//check if func returns empty box
+		let totalWidth = size.width * count + spacing * (count - 1)
 
-		return CGSize(width: width, height: maxHeight)
+		return CGSize(width: totalWidth, height: size.height)
 	}
 
 	func placeSubviews(
@@ -37,20 +39,15 @@ struct TagStack: Layout {
 		subviews: Subviews,
 		cache: inout ()
 	) {
-		// find the widest subview's width
-		let dimensions = subviews.map { $0.sizeThatFits(.unspecified) }
-		let widths = dimensions.map { $0.width }
-		let heights = dimensions.map { $0.height }
-		guard let maxWidth = widths.max(), let maxHeight = heights.max() else {
-			return
-		}
-
+		
+		guard let size = maxSize(of: subviews) else { return }	//check if func returns empty box
+		//placement point
 		var origin = CGPoint(x: bounds.minX, y: bounds.midY)
 		print(origin)
 
 		/* Loop all subviews to:
 			1. place each subview next to other in bound area;
-			2. each width adjusted to the wildest width;
+			2. each width adjusted to the widest width;
 			3. align to the left with spacing in-between
 		 */
 		for subview in subviews {
@@ -58,9 +55,12 @@ struct TagStack: Layout {
 			subview.place(
 				at: origin,
 				anchor: .leading,
-				proposal: ProposedViewSize(width: maxWidth, height: 50)
+				proposal: ProposedViewSize(
+					width: size.width,
+					height: size.height
+				)
 			)
-			origin.x += maxWidth + spacing
+			origin.x += size.width + spacing
 
 		}
 	}
