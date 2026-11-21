@@ -16,11 +16,12 @@ struct TagView: View {
 		Text(tag)
 			.padding(.horizontal, 12)
 			.padding(.vertical, 6)
-			.frame(minWidth: 80)
+			.frame(minWidth: 50 , maxWidth: 100)
 			.font(.body.weight(.semibold).width(.compressed))
 			.foregroundStyle(.white)
 			.background(.blue, in: Capsule())
 			.lineLimit(1)
+//			.background(.red.opacity(0.2)) //debug
 
 	}
 }
@@ -28,7 +29,7 @@ struct TagView: View {
 #Preview {
 	VStack {
 		TagView(tag: "#book")
-		TagView(tag: "#iOS developersdada")
+		TagView(tag: "#iOS developer")
 	}
 
 }

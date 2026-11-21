@@ -9,12 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
 	var body: some View {
-		TagStack(spacing: 24) {
-			TagView(tag: "#iOS developer sadasda")
-			TagView(tag: "#book")
+		TagStack(spacing: 8) {
+			TagView(tag: "#iOSdev")
+			TagView(tag: "#b")
+			//				.background(.red.opacity(0.2)) //debug
+			TagView(tag: "#n")
+			//				.background(.red.opacity(0.2)) //debug
+			TagView(tag: "#sp")
 
 		}
-		.padding()
+		.frame(maxWidth: .infinity, alignment: .leading)
+//		.background(.green.opacity(0.2))  //debug
+
 	}
 }
 
